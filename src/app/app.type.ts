@@ -1,16 +1,3 @@
-import { GraphQLInt, GraphQLObjectType, GraphQLString} from "@gapi/core";
+import { v1 as neo4j } from 'neo4j-driver';
 
-export const AppType = new GraphQLObjectType( {
-    name: 'AppType',
-    fields: () => ({
-        id:  {
-            type: GraphQLInt
-        },
-        email: {
-            type: GraphQLString
-        },
-        name: {
-            type: GraphQLString
-        }
-    })
-});
+export interface GraphQLContext { driver: neo4j.Driver }

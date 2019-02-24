@@ -1,8 +1,8 @@
 import { BootstrapFramework } from '@gapi/core';
 import { AppModule } from './app/app.module';
-import { FrameworkImports } from './framework-imports';
+import { CoreModule } from './app/core/core.module';
 
-BootstrapFramework(AppModule, [FrameworkImports])
+BootstrapFramework(AppModule, [CoreModule])
     .subscribe(
         () => {
             // console.log(Container.get(GRAPHQL_PLUGIN_CONFIG).graphqlOptions.schema);
