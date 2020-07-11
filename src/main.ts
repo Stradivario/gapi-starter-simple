@@ -1,9 +1,8 @@
-import { BootstrapFramework } from '@gapi/core';
-import { AppModule } from './app/app.module';
-import { FrameworkImports } from './framework-imports';
+import { Bootstrap } from '@gapi/core';
 
-BootstrapFramework(AppModule, [FrameworkImports])
-    .subscribe(
-        () => console.log('Started'),
-        (e) => console.error(e)
-    );
+import { AppModule } from './app/app.module';
+
+Bootstrap(AppModule).subscribe(
+  () => console.log('Started'),
+  e => console.error(e),
+);

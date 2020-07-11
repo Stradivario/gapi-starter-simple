@@ -4,18 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "gapi start --local --lint",
+    "start": "gapi start --local --lint --inspect",
     "test": "gapi test --local",
     "lint": "echo"
   },
   "author": "Kristiyan Tachev (Stradivario)",
   "license": "MIT",
   "dependencies": {
-    "@gapi/core": "^1.8.22",
-    "graphql": "^14.5.8"
+    "@gapi/core": "^1.8.79"
   },
   "devDependencies": {
     "@types/graphql": "^14.5.0",
-    "typescript": "^3.4.5"
+    "typescript": "^3.9.6",
+    "prettier": "^1.19.1",
+    "eslint": "^6.7.2",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-simple-import-sort": "^5.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.10.0",
+    "@typescript-eslint/parser": "^2.10.0"
   }
 }
