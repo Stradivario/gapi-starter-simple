@@ -1,11 +1,6 @@
-import {
-  CoreModule,
-  GenericGapiResolversType,
-  HookService,
-  Module,
-  ON_REQUEST_HANDLER,
-  RESOLVER_HOOK,
-} from '@gapi/core';
+import { CoreModule, GenericGapiResolversType, Module, ON_REQUEST_HANDLER, RESOLVER_HOOK } from '@gapi/core';
+import { Request } from '@hapi/hapi';
+import { GraphqlContext } from 'app/app.context';
 
 import { Environment } from '~app/environment';
 
@@ -38,33 +33,16 @@ import { Environment } from '~app/environment';
       },
       graphql: {
         path: '/graphql',
-        graphiQlPath: '/graphiql',
-        openBrowser: true,
-        watcherPort: 8967,
-        writeEffects: false,
-        graphiql: false,
-        graphiQlPlayground: true,
-        graphiqlOptions: {
-          endpointURL: '/graphql',
-          passHeader: `'Authorization':'${Environment.GRAPHIQL_TOKEN}'`,
-          subscriptionsEndpoint: `ws://localhost:${Environment.API_PORT || process.env.PORT || 9000}/subscriptions`,
-          websocketConnectionParams: {
-            token: Environment.GRAPHIQL_TOKEN,
-          },
-        },
-        graphqlOptions: {
-          schema: null,
-        },
       },
     }),
   ],
   providers: [
     {
       provide: RESOLVER_HOOK,
-      deps: [HookService],
+      deps: [],
       useFactory: () => (resolver: GenericGapiResolversType) => {
         const resolve = resolver.resolve.bind(resolver.target);
-        resolver.resolve = async function(root, args, context, info, ...a) {
+        resolver.resolve = async function (root, args, context, info, ...a) {
           /*
            *  Here every resolver can be modified even we can check for the result and strip some field
            *  Advanced logic for authentication can be applied here using @gapi/ac or equivalent package
@@ -76,15 +54,18 @@ import { Environment } from '~app/environment';
     },
     {
       provide: ON_REQUEST_HANDLER,
-      useFactory: () => (next: Function, request: Request) => {
+      useFactory: () => (next: (context: GraphqlContext) => GraphqlContext, request: Request) => {
         /* Every request comming from client will be processed here so we can put user context or other context here */
-        request;
+
+        console.log('Request initiated', request.payload);
+        /* Fetch user and make authorization then attach context to the resolvers */
         // request.headers.authorization
-        // const config = Container.get(GRAPHQL_PLUGIN_CONFIG);
-        // config.graphqlOptions.context = {
-        //   // driver,
-        // };
-        return next();
+        const context: GraphqlContext = {
+          user: {
+            id: '1',
+          },
+        };
+        return next(context);
       },
     },
   ],

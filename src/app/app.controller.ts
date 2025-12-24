@@ -1,6 +1,5 @@
+import { IAppType } from '@core/api-introspection';
 import { Controller, GraphQLInt, GraphQLNonNull, Query, Type } from '@gapi/core';
-
-import { IAppType } from '~core/api-introspection';
 
 import { GraphqlContext } from './app.context';
 import { AppType } from './app.type';
@@ -14,7 +13,7 @@ export class AppQueriesController {
     },
   })
   findApp(root, { id }, context: GraphqlContext): IAppType {
-    context;
+    console.log(context);
     return { id: id };
   }
 }
